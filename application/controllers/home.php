@@ -5,12 +5,13 @@ class Home extends CI_Controller {
 
 	public function index()
 	{
-		$data['breadcrumbs'] = array(
-			// anchor('/', 'Home'), 
-			// anchor('/', 'Login')
-		);
-		$this->load->view('layout/header', $data);
-		$this->load->view('home');
-		$this->load->view('layout/footer');
+		require('frontend/offers.php');
+		$offers = new Offers();
+		$data = $offers->index();
+		// $this->load->library('Debug', $data);
+
+		$this->load->view($this->config->item('frontend_folder').'layout/header');
+		$this->load->view($this->config->item('frontend_folder').'home', array('products' => $data));
+		$this->load->view($this->config->item('frontend_folder').'layout/footer');
 	}
 }

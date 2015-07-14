@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 13, 2015 at 11:25 AM
+-- Generation Time: Jul 14, 2015 at 04:23 PM
 -- Server version: 5.5.39
 -- PHP Version: 5.4.31
 
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS `category` (
 INSERT INTO `category` (`id`, `parent_category`, `name`, `updated`) VALUES
 (1, NULL, 'computer hardware/software', '2015-07-07 13:30:45'),
 (2, NULL, 'fashion, cosmetics & apparels', '2015-07-09 08:35:08'),
-(3, NULL, 'furniture & home decor', '2015-07-09 08:35:33'),
+(3, 2, 'furniture & home decor', '2015-07-13 11:06:14'),
 (4, 3, 'kitchen ware', '2015-07-13 08:54:52');
 
 -- --------------------------------------------------------

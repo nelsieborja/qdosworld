@@ -55,5 +55,17 @@ $route['translate_uri_dashes'] = FALSE;
 
 // $route['public/(:any)'] = 'public/$1';
 
-$route['products/(:num)'] = 'product/get/$1';
-$route['products/(:num)/(:num)'] = 'product/get/$1/$2';
+// Product listings
+$route['products/?([(\d+\/?)]+)?'] = 'frontend/product/get';
+
+// Product viewing
+$route['i/([a-z\d\-]+)/?'] = 'frontend/view';
+
+// Get request of categories
+$route['categories/?'] = 'frontend/categories';
+
+// Get request of offers
+$route['offers/?'] = 'frontend/offers';
+
+// Templates
+$route['template/([a-z]+)/?'] = 'frontend/template/$1';

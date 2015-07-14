@@ -1,5 +1,7 @@
-<?php 
-class Messenger{
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Messenger {
 		
 	function success($msg = '', $data = array()) {
 		die(json_encode(
