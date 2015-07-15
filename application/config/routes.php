@@ -63,6 +63,7 @@ $route['i/([a-z\d\-]+)/?'] = 'frontend/view';
 
 // Get request of categories
 $route['categories/?'] = 'frontend/categories';
+$route['categories/get/?'] = 'frontend/categories/get';
 
 // Get request of offers
 $route['offers/?'] = 'frontend/offers';

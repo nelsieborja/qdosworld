@@ -5,7 +5,7 @@
  * Version: 0.13.0 - 2015-05-02
  * License: MIT
  */
-angular.module("ui.bootstrap", ["ui.bootstrap.dropdown","ui.bootstrap.position","ui.bootstrap.tooltip","ui.bootstrap.bindHtml","ui.bootstrap.modal","ui.bootstrap.popover","ui.bootstrap.tabs","ui.bootstrap.carousel","ui.bootstrap.transition"]);
+angular.module("ui.bootstrap", ["ui.bootstrap.dropdown","ui.bootstrap.position","ui.bootstrap.tooltip","ui.bootstrap.bindHtml","ui.bootstrap.popover","ui.bootstrap.modal","ui.bootstrap.tabs","ui.bootstrap.collapse","ui.bootstrap.carousel","ui.bootstrap.transition"]);
 angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.position'])
 
 .constant('dropdownConfig', {
@@ -909,6 +909,42 @@ angular.module('ui.bootstrap.bindHtml', [])
       });
     };
   });
+/**
+ * The following features are still outstanding: popup delay, animation as a
+ * function, placement as a function, inside, support for more triggers than
+ * just mouse enter/leave, html popovers, and selector delegatation.
+ */
+angular.module( 'ui.bootstrap.popover', [ 'ui.bootstrap.tooltip' ] )
+
+.directive( 'popoverTemplatePopup', function () {
+  return {
+    restrict: 'EA',
+    replace: true,
+    scope: { title: '@', contentExp: '&', placement: '@', popupClass: '@', animation: '&', isOpen: '&',
+      originScope: '&' },
+    templateUrl: 'template/popover/popover-template.html'
+  };
+})
+
+.directive( 'popoverTemplate', [ '$tooltip', function ( $tooltip ) {
+  return $tooltip( 'popoverTemplate', 'popover', 'click', {
+    useContentExp: true
+  } );
+}])
+
+.directive( 'popoverPopup', function () {
+  return {
+    restrict: 'EA',
+    replace: true,
+    scope: { title: '@', content: '@', placement: '@', popupClass: '@', animation: '&', isOpen: '&' },
+    templateUrl: 'template/popover/popover.html'
+  };
+})
+
+.directive( 'popover', [ '$tooltip', function ( $tooltip ) {
+  return $tooltip( 'popover', 'popover', 'click' );
+}]);
+
 angular.module('ui.bootstrap.modal', [])
 
 /**
@@ -1385,42 +1421,6 @@ angular.module('ui.bootstrap.modal', [])
     return $modalProvider;
   });
 
-/**
- * The following features are still outstanding: popup delay, animation as a
- * function, placement as a function, inside, support for more triggers than
- * just mouse enter/leave, html popovers, and selector delegatation.
- */
-angular.module( 'ui.bootstrap.popover', [ 'ui.bootstrap.tooltip' ] )
-
-.directive( 'popoverTemplatePopup', function () {
-  return {
-    restrict: 'EA',
-    replace: true,
-    scope: { title: '@', contentExp: '&', placement: '@', popupClass: '@', animation: '&', isOpen: '&',
-      originScope: '&' },
-    templateUrl: 'template/popover/popover-template.html'
-  };
-})
-
-.directive( 'popoverTemplate', [ '$tooltip', function ( $tooltip ) {
-  return $tooltip( 'popoverTemplate', 'popover', 'click', {
-    useContentExp: true
-  } );
-}])
-
-.directive( 'popoverPopup', function () {
-  return {
-    restrict: 'EA',
-    replace: true,
-    scope: { title: '@', content: '@', placement: '@', popupClass: '@', animation: '&', isOpen: '&' },
-    templateUrl: 'template/popover/popover.html'
-  };
-})
-
-.directive( 'popover', [ '$tooltip', function ( $tooltip ) {
-  return $tooltip( 'popover', 'popover', 'click' );
-}]);
-
 
 /**
  * @ngdoc overview
@@ -1714,6 +1714,57 @@ angular.module('ui.bootstrap.tabs', [])
 })
 
 ;
+
+angular.module('ui.bootstrap.collapse', [])
+
+  .directive('collapse', ['$animate', function ($animate) {
+
+    return {
+      link: function (scope, element, attrs) {
+        function expand() {
+          element.removeClass('collapse').addClass('collapsing');
+          $animate.addClass(element, 'in', {
+            to: { height: element[0].scrollHeight + 'px' }
+          }).then(expandDone);
+        }
+
+        function expandDone() {
+          element.removeClass('collapsing');
+          element.css({height: 'auto'});
+        }
+
+        function collapse() {
+          element
+            // IMPORTANT: The height must be set before adding "collapsing" class.
+            // Otherwise, the browser attempts to animate from height 0 (in
+            // collapsing class) to the given height here.
+            .css({height: element[0].scrollHeight + 'px'})
+            // initially all panel collapse have the collapse class, this removal
+            // prevents the animation from jumping to collapsed state
+            .removeClass('collapse')
+            .addClass('collapsing');
+
+          $animate.removeClass(element, 'in', {
+            to: {height: '0'}
+          }).then(collapseDone);
+        }
+
+        function collapseDone() {
+          element.css({height: '0'}); // Required so that collapse works when animation is disabled
+          element.removeClass('collapsing');
+          element.addClass('collapse');
+        }
+
+        scope.$watch(attrs.collapse, function (shouldCollapse) {
+          if (shouldCollapse) {
+            collapse();
+          } else {
+            expand();
+          }
+        });
+      }
+    };
+  }]);
 
 /**
 * @ngdoc overview

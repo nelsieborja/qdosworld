@@ -46,7 +46,7 @@ class View extends CI_Controller {
 		
 		$data = $row;
 		
-		$breadcrumb = $this->breadcrumb->generate();
+		$breadcrumb = $this->breadcrumb->generate($row['category_id']);
 		
 		$this->load->view($this->config->item('frontend_folder').'layout/header', array('breadcrumb' => $breadcrumb));
 		$this->load->view($this->config->item('frontend_folder').'view', array('product' => $data));

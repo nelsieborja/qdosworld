@@ -7,6 +7,10 @@ class Template extends CI_Controller {
 	{
 		$this->load->view($this->config->item('frontend_folder').'layout/template/categorylist');
 	}
+	public function categoryLists()
+	{
+		$this->load->view($this->config->item('frontend_folder').'layout/template/categorylists');
+	}
 	public function productList()
 	{
 		$this->load->view($this->config->item('frontend_folder').'layout/template/productlist');

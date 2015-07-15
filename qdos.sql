@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2015 at 04:23 PM
+-- Generation Time: Jul 15, 2015 at 04:07 PM
 -- Server version: 5.5.39
 -- PHP Version: 5.4.31
 
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `parent_category` int(10) DEFAULT NULL,
   `name` varchar(50) NOT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `category`
@@ -41,7 +41,8 @@ INSERT INTO `category` (`id`, `parent_category`, `name`, `updated`) VALUES
 (1, NULL, 'computer hardware/software', '2015-07-07 13:30:45'),
 (2, NULL, 'fashion, cosmetics & apparels', '2015-07-09 08:35:08'),
 (3, 2, 'furniture & home decor', '2015-07-13 11:06:14'),
-(4, 3, 'kitchen ware', '2015-07-13 08:54:52');
+(4, 3, 'kitchen ware', '2015-07-13 08:54:52'),
+(5, 4, 'Cooking', '2015-07-15 13:48:05');
 
 -- --------------------------------------------------------
 
@@ -117,7 +118,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
 --
 -- AUTO_INCREMENT for table `product`
 --

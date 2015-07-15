@@ -25,13 +25,24 @@
 		};
 	});
 	
+	app.controller('TogglerController', function($scope) {
+		$scope.isOpen = true;
+		$scope.toggle = function() {
+			if ($scope.isOpen) {
+				$scope.isOpen = false;
+			} else {
+				$scope.isOpen = true;
+			}
+		}
+	});
+	
 	app.directive("categoryList", function() {
 		return {
 			restrict: "E",
 			templateUrl: baseURL+"template/categorylist",
 			controller: function($scope, $http) {
 				$scope.categories = {};
-				$http.get(baseURL+'categories').success(function(json) {
+				$http.get(baseURL+'categories/get').success(function(json) {
 					if (!json.status || !json.data || json.status == 'ERROR') {
 						return;
 					}
@@ -41,19 +52,32 @@
 		};
 	});
 	
+	app.directive("categoryLists", function() {
+		return {
+			restrict: "E",
+			templateUrl: baseURL+"template/categorylists",
+			controller: function($scope) {
+				$scope.children = {};
+				$scope.unique_id = '';
+				
+				$scope.parseURL = function() {
+					return $scope.unique_id.split('_').join('/');
+				}
+			}
+		};
+	});
+	
 	app.directive("productList", function() {
 		return {
 			restrict: "E",
-			templateUrl: baseURL+"template/productlist",
-			controller: function($scope, $http) {}
+			templateUrl: baseURL+"template/productlist"
 		};
 	});
 	
 	app.directive("productView", function() {
 		return {
 			restrict: "E",
-			templateUrl: baseURL+"template/productview",
-			controller: function($scope, $http) {}
+			templateUrl: baseURL+"template/productview"
 		};
 	});
 })();

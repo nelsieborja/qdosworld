@@ -9,7 +9,7 @@ class Offers extends CI_Controller {
 		 
 		// Load model, library
 		$this->load->model($this->config->item('frontend_folder').'Product_model', 'product');
-		$this->load->library('Messenger');
+		// $this->load->library('Messenger');
 	}
 	
 	public function index()

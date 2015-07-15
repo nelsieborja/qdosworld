@@ -29,8 +29,25 @@ class Product_model extends CI_Model {
 		if (!$category_id) {
 			return false;
 		}
-
+		
+		if (is_array($category_id)) {
+			return $this->get_by_categories($category_id);
+		}
+		
 		return $this->get(NULL, $category_id);
+	}
+
+	public function get_by_categories($category_id_ids = NULL)
+	{
+		if (!$category_id_ids) {
+			return false;
+		}
+		
+		$this->db->where_in('category_id', $category_id_ids);
+		$this->db->order_by('id', 'desc');
+		
+        $query = $this->db->get($this->tbl);
+		return $query->result_array();
 	}
 
 	public function get_offers($limit = 10)

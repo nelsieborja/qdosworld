@@ -5,8 +5,8 @@
  * Version: 0.13.0 - 2015-05-02
  * License: MIT
  */
-angular.module("ui.bootstrap", ["ui.bootstrap.tpls","ui.bootstrap.dropdown","ui.bootstrap.position","ui.bootstrap.tooltip","ui.bootstrap.bindHtml","ui.bootstrap.modal","ui.bootstrap.popover","ui.bootstrap.tabs","ui.bootstrap.carousel","ui.bootstrap.transition"]);
-angular.module("ui.bootstrap.tpls", ["template/tooltip/tooltip-html-popup.html","template/tooltip/tooltip-html-unsafe-popup.html","template/tooltip/tooltip-popup.html","template/tooltip/tooltip-template-popup.html","template/modal/backdrop.html","template/modal/window.html","template/popover/popover-template.html","template/popover/popover.html","template/tabs/tab.html","template/tabs/tabset.html","template/carousel/carousel.html","template/carousel/slide.html"]);
+angular.module("ui.bootstrap", ["ui.bootstrap.tpls","ui.bootstrap.dropdown","ui.bootstrap.position","ui.bootstrap.tooltip","ui.bootstrap.bindHtml","ui.bootstrap.popover","ui.bootstrap.modal","ui.bootstrap.tabs","ui.bootstrap.collapse","ui.bootstrap.carousel","ui.bootstrap.transition"]);
+angular.module("ui.bootstrap.tpls", ["template/tooltip/tooltip-html-popup.html","template/tooltip/tooltip-html-unsafe-popup.html","template/tooltip/tooltip-popup.html","template/tooltip/tooltip-template-popup.html","template/popover/popover-template.html","template/popover/popover.html","template/modal/backdrop.html","template/modal/window.html","template/tabs/tab.html","template/tabs/tabset.html","template/carousel/carousel.html","template/carousel/slide.html"]);
 angular.module('ui.bootstrap.dropdown', ['ui.bootstrap.position'])
 
 .constant('dropdownConfig', {
@@ -910,6 +910,42 @@ angular.module('ui.bootstrap.bindHtml', [])
       });
     };
   });
+/**
+ * The following features are still outstanding: popup delay, animation as a
+ * function, placement as a function, inside, support for more triggers than
+ * just mouse enter/leave, html popovers, and selector delegatation.
+ */
+angular.module( 'ui.bootstrap.popover', [ 'ui.bootstrap.tooltip' ] )
+
+.directive( 'popoverTemplatePopup', function () {
+  return {
+    restrict: 'EA',
+    replace: true,
+    scope: { title: '@', contentExp: '&', placement: '@', popupClass: '@', animation: '&', isOpen: '&',
+      originScope: '&' },
+    templateUrl: 'template/popover/popover-template.html'
+  };
+})
+
+.directive( 'popoverTemplate', [ '$tooltip', function ( $tooltip ) {
+  return $tooltip( 'popoverTemplate', 'popover', 'click', {
+    useContentExp: true
+  } );
+}])
+
+.directive( 'popoverPopup', function () {
+  return {
+    restrict: 'EA',
+    replace: true,
+    scope: { title: '@', content: '@', placement: '@', popupClass: '@', animation: '&', isOpen: '&' },
+    templateUrl: 'template/popover/popover.html'
+  };
+})
+
+.directive( 'popover', [ '$tooltip', function ( $tooltip ) {
+  return $tooltip( 'popover', 'popover', 'click' );
+}]);
+
 angular.module('ui.bootstrap.modal', [])
 
 /**
@@ -1386,42 +1422,6 @@ angular.module('ui.bootstrap.modal', [])
     return $modalProvider;
   });
 
-/**
- * The following features are still outstanding: popup delay, animation as a
- * function, placement as a function, inside, support for more triggers than
- * just mouse enter/leave, html popovers, and selector delegatation.
- */
-angular.module( 'ui.bootstrap.popover', [ 'ui.bootstrap.tooltip' ] )
-
-.directive( 'popoverTemplatePopup', function () {
-  return {
-    restrict: 'EA',
-    replace: true,
-    scope: { title: '@', contentExp: '&', placement: '@', popupClass: '@', animation: '&', isOpen: '&',
-      originScope: '&' },
-    templateUrl: 'template/popover/popover-template.html'
-  };
-})
-
-.directive( 'popoverTemplate', [ '$tooltip', function ( $tooltip ) {
-  return $tooltip( 'popoverTemplate', 'popover', 'click', {
-    useContentExp: true
-  } );
-}])
-
-.directive( 'popoverPopup', function () {
-  return {
-    restrict: 'EA',
-    replace: true,
-    scope: { title: '@', content: '@', placement: '@', popupClass: '@', animation: '&', isOpen: '&' },
-    templateUrl: 'template/popover/popover.html'
-  };
-})
-
-.directive( 'popover', [ '$tooltip', function ( $tooltip ) {
-  return $tooltip( 'popover', 'popover', 'click' );
-}]);
-
 
 /**
  * @ngdoc overview
@@ -1715,6 +1715,57 @@ angular.module('ui.bootstrap.tabs', [])
 })
 
 ;
+
+angular.module('ui.bootstrap.collapse', [])
+
+  .directive('collapse', ['$animate', function ($animate) {
+
+    return {
+      link: function (scope, element, attrs) {
+        function expand() {
+          element.removeClass('collapse').addClass('collapsing');
+          $animate.addClass(element, 'in', {
+            to: { height: element[0].scrollHeight + 'px' }
+          }).then(expandDone);
+        }
+
+        function expandDone() {
+          element.removeClass('collapsing');
+          element.css({height: 'auto'});
+        }
+
+        function collapse() {
+          element
+            // IMPORTANT: The height must be set before adding "collapsing" class.
+            // Otherwise, the browser attempts to animate from height 0 (in
+            // collapsing class) to the given height here.
+            .css({height: element[0].scrollHeight + 'px'})
+            // initially all panel collapse have the collapse class, this removal
+            // prevents the animation from jumping to collapsed state
+            .removeClass('collapse')
+            .addClass('collapsing');
+
+          $animate.removeClass(element, 'in', {
+            to: {height: '0'}
+          }).then(collapseDone);
+        }
+
+        function collapseDone() {
+          element.css({height: '0'}); // Required so that collapse works when animation is disabled
+          element.removeClass('collapsing');
+          element.addClass('collapse');
+        }
+
+        scope.$watch(attrs.collapse, function (shouldCollapse) {
+          if (shouldCollapse) {
+            collapse();
+          } else {
+            expand();
+          }
+        });
+      }
+    };
+  }]);
 
 /**
 * @ngdoc overview
@@ -2202,26 +2253,6 @@ angular.module("template/tooltip/tooltip-template-popup.html", []).run(["$templa
     "");
 }]);
 
-angular.module("template/modal/backdrop.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("template/modal/backdrop.html",
-    "<div class=\"modal-backdrop\"\n" +
-    "     modal-animation-class=\"fade\"\n" +
-    "     ng-class=\"{in: animate}\"\n" +
-    "     ng-style=\"{'z-index': 1040 + (index && 1 || 0) + index*10}\"\n" +
-    "></div>\n" +
-    "");
-}]);
-
-angular.module("template/modal/window.html", []).run(["$templateCache", function($templateCache) {
-  $templateCache.put("template/modal/window.html",
-    "<div modal-render=\"{{$isRendered}}\" tabindex=\"-1\" role=\"dialog\" class=\"modal\"\n" +
-    "    modal-animation-class=\"fade\"\n" +
-    "	ng-class=\"{in: animate}\" ng-style=\"{'z-index': 1050 + index*10, display: 'block'}\" ng-click=\"close($event)\">\n" +
-    "    <div class=\"modal-dialog\" ng-class=\"size ? 'modal-' + size : ''\"><div class=\"modal-content\" modal-transclude></div></div>\n" +
-    "</div>\n" +
-    "");
-}]);
-
 angular.module("template/popover/popover-template.html", []).run(["$templateCache", function($templateCache) {
   $templateCache.put("template/popover/popover-template.html",
     "<div class=\"popover\"\n" +
@@ -2265,6 +2296,26 @@ angular.module("template/popover/popover.html", []).run(["$templateCache", funct
     "      <h3 class=\"popover-title\" ng-bind=\"title\" ng-if=\"title\"></h3>\n" +
     "      <div class=\"popover-content\" ng-bind=\"content\"></div>\n" +
     "  </div>\n" +
+    "</div>\n" +
+    "");
+}]);
+
+angular.module("template/modal/backdrop.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("template/modal/backdrop.html",
+    "<div class=\"modal-backdrop\"\n" +
+    "     modal-animation-class=\"fade\"\n" +
+    "     ng-class=\"{in: animate}\"\n" +
+    "     ng-style=\"{'z-index': 1040 + (index && 1 || 0) + index*10}\"\n" +
+    "></div>\n" +
+    "");
+}]);
+
+angular.module("template/modal/window.html", []).run(["$templateCache", function($templateCache) {
+  $templateCache.put("template/modal/window.html",
+    "<div modal-render=\"{{$isRendered}}\" tabindex=\"-1\" role=\"dialog\" class=\"modal\"\n" +
+    "    modal-animation-class=\"fade\"\n" +
+    "	ng-class=\"{in: animate}\" ng-style=\"{'z-index': 1050 + index*10, display: 'block'}\" ng-click=\"close($event)\">\n" +
+    "    <div class=\"modal-dialog\" ng-class=\"size ? 'modal-' + size : ''\"><div class=\"modal-content\" modal-transclude></div></div>\n" +
     "</div>\n" +
     "");
 }]);

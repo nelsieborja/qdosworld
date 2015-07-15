@@ -6,6 +6,8 @@
 	-moz-user-select: none;
 	-ms-user-select: none;
 	 user-select: none;
+	/* font-smoothing: antialiased !important;
+	-webkit-font-smoothing: antialiased !important; */
 }
 html,body{
   width: 100%;
@@ -270,10 +272,25 @@ span[class^="goto-"]{
 	padding: 10px 15px;
 }
 .list-group-item:hover>a,
-.list-group-item>a:hover{
+.list-group-item>a:hover,
+.category-list li a:hover{
 	text-decoration: none;
 	color: #555;
 	background-color: #f5f5f5;
+}
+.category-list li{
+	list-style:none;
+	display:block;
+}
+.category-list li a{
+	display:block;
+	padding: 4px 10px;
+	text-transform: capitalize;
+}
+.category-list-title{
+	margin-top:0;
+	font-size:18px;
+	text-transform: capitalize;
 }
 .c-menu{position:relative}
 .c-submenu-wrap{
@@ -311,15 +328,7 @@ span[class^="goto-"]{
 .c-submenu-col .pad{
 	padding:10px
 }
-.c-submenu-col li{
-	list-style:none;
-	display:block;
-	margin: 6px 10px;
-}
-.c-submenu-category{
-	margin-top:0;
-}
-.c-submenu-category a{
+.c-submenu-col .category-list-title a{
 	color: #333!important;
 	text-transform: uppercase!important;
 	text-decoration:none!important
@@ -393,16 +402,16 @@ span[class^="goto-"]{
 	position:relative;
 	padding:130px 0 115px
 }
-/* products */
-.product-wrap{
+.subcontent-wrap{
 	padding-bottom:20px;
 	padding-top:20px;
 }
-.product-wrap div[class*="col-"] {
+.subcontent-wrap div[class*="col-"] {
 	padding-top: 15px;
 	padding-bottom: 15px;
 }
-.product-item {
+/* products */
+.product-item,.category-item {
 	display:block;
 	position: relative;
 	padding: 20px;
@@ -417,8 +426,12 @@ span[class^="goto-"]{
 	border:2px dotted #a00304;
 	/* border-color: #ebeeed; */
 	/* border-color: transparent; */
+	perspective: 1000;
 	box-shadow: 0 0px 30px #bbb;
 	transform: scale(1.01);
+	/* transform: scale3d(1.01, 1.01, 1); */
+	/* transform: translate3d(0,-1px,0);
+	-webkit-transform: translate3d(0,-1px,0); */
 }
 .product-discount{
 	position: absolute;z-index:2;
@@ -457,7 +470,9 @@ span[class^="goto-"]{
 }
 .view-product-back{margin-top:10px;padding:0}
 .view-product-name,.view-product-price{margin:0}
-.view-product-price{letter-spacing:-1px;text-align:right}
+.view-product-price{text-align:right}
+.view-product-price em{letter-spacing:-1px}
+.view-product-price a small{color:#fff}
 .view-more .mask{
 	position:absolute;z-index:1;
 	top:0;left:0;
@@ -504,4 +519,25 @@ span[class^="goto-"]{
 	transition: all .4s ease-in-out;}
 
 
-
+/* CATEGORIES
+-------------------------------------------------- */
+.category-item{
+	padding:10px;
+	cursor:inherit
+}
+.category-item li{
+	position:relative;
+}
+.category-withsub-btn{
+	position:absolute;
+	left:6px;top:1px;
+	padding:4px;
+	cursor:pointer
+}
+.category-list li.category-withsub{
+	padding-left:22px
+}
+.category-list li.category-withsub>a{
+	padding-left: 32px;
+	margin-left: -22px;
+}
