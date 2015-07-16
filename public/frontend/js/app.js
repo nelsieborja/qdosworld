@@ -28,11 +28,7 @@
 	app.controller('TogglerController', function($scope) {
 		$scope.isOpen = true;
 		$scope.toggle = function() {
-			if ($scope.isOpen) {
-				$scope.isOpen = false;
-			} else {
-				$scope.isOpen = true;
-			}
+			$scope.isOpen = $scope.isOpen?false:true
 		}
 	});
 	

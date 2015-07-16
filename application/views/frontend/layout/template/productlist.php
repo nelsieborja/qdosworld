@@ -10,12 +10,10 @@
 			</div>
 			
 			<h4 class="product-name font-capitalize">{{ product.name | limitTo:40 }}</h4>
-			
+			<span class="mask"><span class=icon></span></span>
 			<span ng-if="product.discount" class="product-discount">
 				<strong class="font-round ng-binding">{{ product.discount }}<small>%</small></strong>
 			</span>
-			
-			<span class="mask"><span class=icon></span></span>
 		</a>
 	</div>
 </div>
