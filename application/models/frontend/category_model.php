@@ -8,21 +8,40 @@ class Category_model extends CI_Model {
 		parent::__construct();
 	}
 
-	public function get($id = NULL, $parent_category = NULL)
+	public function get($where = array(), $limit = 0, $order = array('id' => 'desc'))
 	{
-		// $hook =& load_class('Hooks', 'core');
-		// $hook->call_hook('HandleExceptions');
-		
-		if ($id) {
-			$this->db->where('id', $id);
+		foreach($where as $key => $val) {
+			$this->db->where($key, $val);
 		}
 
-		if ($parent_category) {
-			$this->db->where('parent_category', $parent_category);
+		if ($limit) {
+			$this->db->limit($limit);
+		}
+		
+		foreach($order as $key => $val) {
+			$this->db->order_by($key, $val);
 		}
 		
 		$query = $this->db->get($this->tbl);
 		return $query->result_array();
+	}
+	
+	public function get_by_parent($id = NULL)
+	{		
+		if (!$id) {
+			return false;
+		}
+
+		return $this->get(array('parent_category' => $id));
+	}
+
+	public function get_by_name($name = NULL)
+	{		
+		if (!$name) {
+			return false;
+		}
+
+		return $this->get(array('name' => $name));
 	}
 
 }

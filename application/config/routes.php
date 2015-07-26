@@ -53,9 +53,12 @@ $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+$route['c(/[a-z\d\-\/]+/?)?'] = 'frontend/category';
+$route['i/[a-z\d\-\/]+/?'] = 'frontend/product';
+
 // $route['public/(:any)'] = 'public/$1';
 
-// Product listings
+/* // Product listings
 $route['products/?([(\d+\/?)]+)?'] = 'frontend/product/get';
 
 // Product viewing
@@ -66,7 +69,4 @@ $route['categories/?'] = 'frontend/categories';
 $route['categories/get/?'] = 'frontend/categories/get';
 
 // Get request of offers
-$route['offers/?'] = 'frontend/offers';
-
-// Templates
-$route['template/([a-z]+)/?'] = 'frontend/template/$1';
+$route['offers/?'] = 'frontend/offers'; */
