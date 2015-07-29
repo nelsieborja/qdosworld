@@ -1,4 +1,6 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Product_model extends CI_Model {
 	
 	var $tbl = 'product';
@@ -35,24 +37,6 @@ class Product_model extends CI_Model {
 
 		return $this->get(array('id' => $id));
 	}
-	
-	/* public function get($id = NULL, $category_id = NULL, $order_by = 'desc', $search = '')
-	{
-		if ($id) {
-			$this->db->where('id', $id);
-		}
-		if ($category_id) {
-			$this->db->where('category_id', $category_id);
-		}
-		if ($search) {
-			$this->db->like('name', $search);
-		}
-
-		$this->db->order_by('id', $order_by);
-		
-        $query = $this->db->get($this->tbl);
-		return $query->result_array();
-	} */
 
 	public function get_search($search = NULL)
 	{
@@ -89,7 +73,7 @@ class Product_model extends CI_Model {
 		return $query->result_array();
 	}
 
-	public function get_latest($limit = 12)
+	public function get_latest($limit = 6)
 	{
 		$this->db->limit($limit);
 		$this->db->where('isoffer', '0');
@@ -100,7 +84,7 @@ class Product_model extends CI_Model {
 		return $query->result_array();
 	}
 
-	public function get_offers($limit = 12)
+	public function get_offers($limit = 6)
 	{
 		$this->db->where('isoffer', 1);
 		$this->db->limit($limit);

@@ -1,4 +1,6 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
 class Category_model extends CI_Model {
 
 	var $tbl = 'category';
@@ -42,6 +44,20 @@ class Category_model extends CI_Model {
 		}
 
 		return $this->get(array('name' => $name));
+	}
+	
+	public function get_by_url($url = NULL)
+	{		
+		if (!$url) {
+			return false;
+		}
+
+		return $this->get(array('url' => $url));
+	}
+	
+	public function get_in_asc()
+	{		
+		return $this->get(array(), 0, array('id' => 'asc'));
 	}
 
 }

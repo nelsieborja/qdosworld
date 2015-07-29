@@ -56,7 +56,8 @@ $route['translate_uri_dashes'] = FALSE;
 $route['c(/[a-z\d\-\/]+/?)?'] = 'frontend/category';
 $route['i/[a-z\d\-\/]+/?'] = 'frontend/product';
 
-// $route['public/(:any)'] = 'public/$1';
+$route['signin/?'] = 'frontend/authenticate/signin';
+$route['logout/?'] = 'frontend/authenticate/logout';
 
 /* // Product listings
 $route['products/?([(\d+\/?)]+)?'] = 'frontend/product/get';

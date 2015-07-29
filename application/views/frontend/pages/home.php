@@ -26,13 +26,17 @@
 		<a href="c/test" class="shopnow abs font-semibold">SHOP NOW</a>
 	</div>
 	
-	<aside class="home-aside">
+	<aside class="home-aside bg-danger">
 		<div class="row">
-			<div class="col-md-6">
-				<h3 class="font-red">Don't have account yet? <a class="btn btn-success" href="#" role="button">Sign up</a></h3>
+			<div class="col-md-7">
+				<?php if ($this->session->userdata('logged_in')) { ?>
+					<h3 class="home-aside-caption welcome">Welcome back <strong><?php echo $this->session->userdata('logged_in')['name']?ucwords($this->session->userdata('logged_in')['name']):$this->session->userdata('logged_in')['username']; ?></strong>!</h3>
+				<?php } else { ?>
+					<h3 class="home-aside-caption">Don't have account yet? <a class="btn btn-warning" href="#" role="button">Sign up</a></h3>
+				<?php } ?>
 			</div>
-			<div class="social-wrap col-md-6">
-				<h3 class="font-red">Find us on</h3>
+			<div class="social-wrap col-md-5">
+				<h3 class="home-aside-caption">Find us on</h3>
 				<ul>
 					<li><a href="" class="social-twitter">Twitter</a></li>
 					<li><a href="" class="social-facebook">Facebook</a></li>
@@ -48,14 +52,14 @@
 		<ul>
 			<li>
 				<a href="/c/test" class="item rel">
-					<img class="item-img abs" src="<?php echo public_url(); ?>/images/category/twopiece.jpg" alt="" />
-					<span class="item-caption abs">Two Piece</span>
+					<img class="item-img abs" src="<?php echo public_url(); ?>/images/category/bags.jpg" alt="" />
+					<span class="item-caption abs">Bags</span>
 				</a>
 			</li>
 			<li>
 				<a href="/c/test" class="item rel">
-					<img class="item-img abs" src="<?php echo public_url(); ?>/images/category/accessories.jpg" alt="" />
-					<span class="item-caption abs">Accessories</span>
+					<img class="item-img abs" src="<?php echo public_url(); ?>/images/category/jackets.jpg" alt="" />
+					<span class="item-caption abs">Jackets</span>
 				</a>
 			</li>
 			<li>
@@ -65,7 +69,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="/c/test" class="item rel">
+				<a href="/c/dresses" class="item rel">
 					<img class="item-img abs" src="<?php echo public_url(); ?>/images/category/dresses.jpg" alt="" />
 					<span class="item-caption abs">Dresses</span>
 				</a>
@@ -75,37 +79,23 @@
 	</div>
 	
 	<div class="product-list float-li">
-		<h2 class="product-list-caption">Greate offers</h2>
-		<ul>
-			<?php for ($i=1; $i<=6; $i++) { ?>
-				<li>
-					<a href="/i/test" class="item">
-						<img class="item-img" src="<?php echo public_url(); ?>/images/temp/item1.jpg" alt="" />
-						<span class="item-price abs">20 <em>AED</em></span>
-					</a>
-					<a class="add-cart btn-lg abs" data-toggle="modal" data-target="#confirmModal"><span class="glyphicon glyphicon-shopping-cart"></span></a>
-					<p class="item-caption">A mile high playsuit in white</p>
-				</li>
-			<?php } ?>
-		</ul>
-		<div class="clearfix"></div>
+		<h2 class="product-list-caption">Great offers</h2>
+		<?php if (isset($offers_tpl) && $offers_tpl) { ?>
+			<?php echo $offers_tpl; ?>
+			<div class="clearfix"></div>
+		<?php } else { ?>
+			<p class="bg-warning">No offers added yet. We'll be adding soon! :)</p>
+		<?php } ?>
 	</div>
 	
 	<div class="product-list float-li">
 		<h2 class="product-list-caption">New Arrivals</h2>
-		<ul>
-			<?php for ($i=1; $i<=6; $i++) { ?>
-				<li>
-					<a href="/i/test" class="item">
-						<img class="item-img" src="<?php echo public_url(); ?>/images/temp/item1.jpg" alt="" />
-						<span class="item-price abs">20 <em>AED</em></span>
-					</a>
-					<a class="add-cart btn-lg abs" data-toggle="modal" data-target="#confirmModal"><span class="glyphicon glyphicon-shopping-cart"></span></a>
-					<p class="item-caption">A mile high playsuit in white</p>
-				</li>
-			<?php } ?>
-		</ul>
-		<div class="clearfix"></div>
+		<?php if (isset($latest_tpl) && $latest_tpl) { ?>
+			<?php echo $latest_tpl; ?>
+			<div class="clearfix"></div>
+		<?php } else { ?>
+			<p class="bg-warning">No products added yet. Please come back later.</p>
+		<?php } ?>
 	</div>
 	
 	<div class="more-wrap align-center"><a href="/c/test" class="btn btn-lg btn-red"><span class="glyphicon glyphicon-plus"></span> VIEW MORE ITEMS</a></div>

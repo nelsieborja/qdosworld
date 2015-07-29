@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 15, 2015 at 04:07 PM
+-- Generation Time: Jul 29, 2015 at 05:13 PM
 -- Server version: 5.5.39
 -- PHP Version: 5.4.31
 
@@ -23,26 +23,63 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cart`
+--
+
+CREATE TABLE IF NOT EXISTS `cart` (
+`id` int(10) NOT NULL,
+  `signup_id` int(10) NOT NULL,
+  `product_id` int(10) NOT NULL,
+  `quantity` int(3) NOT NULL,
+  `created` datetime NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `category`
 --
 
 CREATE TABLE IF NOT EXISTS `category` (
 `id` int(10) NOT NULL,
   `parent_category` int(10) DEFAULT NULL,
-  `name` varchar(50) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `url` varchar(50) NOT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=28 ;
 
 --
 -- Dumping data for table `category`
 --
 
-INSERT INTO `category` (`id`, `parent_category`, `name`, `updated`) VALUES
-(1, NULL, 'computer hardware/software', '2015-07-07 13:30:45'),
-(2, NULL, 'fashion, cosmetics & apparels', '2015-07-09 08:35:08'),
-(3, 2, 'furniture & home decor', '2015-07-13 11:06:14'),
-(4, 3, 'kitchen ware', '2015-07-13 08:54:52'),
-(5, 4, 'Cooking', '2015-07-15 13:48:05');
+INSERT INTO `category` (`id`, `parent_category`, `name`, `url`, `updated`) VALUES
+(1, NULL, 'dresses', 'dresses', '2015-07-27 07:46:25'),
+(2, NULL, 'tops', 'tops', '2015-07-27 07:46:31'),
+(3, NULL, 'bottoms', 'bottoms', '2015-07-27 07:46:37'),
+(4, NULL, 'outwears', 'outwears', '2015-07-27 07:46:44'),
+(5, NULL, 'watches & jewellery', 'watches-and-jewellery', '2015-07-27 07:47:02'),
+(6, NULL, 'bags', 'bags', '2015-07-27 07:47:14'),
+(7, NULL, 'sale', 'sale', '2015-07-27 07:47:20'),
+(8, NULL, 'collection', 'collection', '2015-07-27 07:47:28'),
+(9, 1, 'office dresses', 'office-dresses', '2015-07-27 07:47:49'),
+(10, 1, 'party dresses', 'party-dresses', '2015-07-27 07:47:59'),
+(11, 1, 'casual dresses', 'casual-dresses', '2015-07-27 07:48:10'),
+(12, 1, 'maxi dresses', 'maxi-dresses', '2015-07-27 07:48:19'),
+(13, 1, 'longer dresses', 'longer-dresses', '2015-07-27 07:48:27'),
+(14, 1, 'play suits', 'play-suits', '2015-07-27 07:48:35'),
+(15, 2, 'short sleeves', 'short-sleeves', '2015-07-27 07:48:42'),
+(16, 2, 'long sleeves', 'long-sleeves', '2015-07-27 07:48:51'),
+(17, 2, 'sleeveless', 'sleeveless', '2015-07-27 07:48:58'),
+(18, 3, 'short', 'short', '2015-07-27 07:49:03'),
+(19, 3, 'skirt', 'skirt', '2015-07-27 07:49:09'),
+(20, 3, 'pants & legging', 'pants-and-legging', '2015-07-27 07:49:19'),
+(21, 3, 'jeans', 'jeans', '2015-07-27 07:49:24'),
+(22, 4, 'cardigans', 'cardigans', '2015-07-27 07:49:37'),
+(23, 4, 'jackets', 'jackets', '2015-07-27 07:49:43'),
+(24, 4, 'coats', 'coats', '2015-07-27 07:49:48'),
+(25, 5, 'woman''s watches', 'woman-watches', '2015-07-27 07:50:01'),
+(26, 5, 'man''s watches', 'man-watches', '2015-07-27 07:50:37'),
+(27, 5, 'jewellery', 'jewellery', '2015-07-27 07:50:58');
 
 -- --------------------------------------------------------
 
@@ -62,18 +99,36 @@ CREATE TABLE IF NOT EXISTS `product` (
   `images` text NOT NULL,
   `updated` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `created` datetime NOT NULL
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `product`
 --
 
 INSERT INTO `product` (`id`, `category_id`, `name`, `description`, `specs`, `price`, `discount`, `isoffer`, `images`, `updated`, `created`) VALUES
-(2, 1, '3-Color Switch Backlight USB Wired Feel Gaming PC/Laptop Keyboard Teclado Gamer Computer Peripherals', '<b>Features:</b>\r\nCondition: New with tags\r\nConnect with computer:wired\r\nMaterial: silica gel\r\nThe interface type:USB\r\nWhether the mechanical keyboard:yes\r\nPresence of hand:yes\r\nWhether to support plug and play:support\r\nWhether to support the human body engineering:support\r\nWeight:200g\r\n\r\n<b>Package included:</b>\r\n1 x wired keyboard', 'Products Status: <b>Stock</b>\r\nStyle: <b>Gaming</b>\r\nType: <b>Wired</b>\r\nFull Size keyboard: <b>Yes</b>\r\nWrist Support: <b>No</b>\r\nPackage: <b>Yes</b>\r\nInterface Type: <b>USB</b>\r\nApplication: <b>Desktop,Laptop</b>\r\nModel Number: <b>12000070</b>\r\nis_customized: <b>Yes</b>', '200', '20', '0', '', '2015-07-12 13:16:21', '0000-00-00 00:00:00'),
-(3, 1, 'Brand New 79Keys Mini Ultra Slim Portable USB Wired Keyboard for PC Computer Laptop Keyboard USB German', 'Features:\r\n- Stylish silver keyboard\r\n- Compact and ultra-slim designed\r\n- Features 79 keys\r\n- USB connection (120 cm-length)\r\n- Plug and play\r\n- Compatible with all the UMPC/MID/PPC/laptop and PC', 'is_customized: <b>Yes</b>\r\nProducts Status: <b>Stock</b>\r\nStyle: <b>Standard,Slim,German</b>\r\nType: <b>Wired</b>\r\nBrand Name: <b>other</b>\r\nPackage: <b>Yes</b>\r\nInterface Type: <b>USB</b>\r\nApplication: <b>Desktop,Laptop,Number,Tablet</b>\r\nModel Number: <b>10040-de</b>\r\nColor: <b>Same As picture show</b>\r\nBrand New: <b>100%</b>\r\nPlace of Origin: <b>China(Mainland)</b>\r\nFeatures: <b>79 keys</b>\r\nUSB connection: <b>120 cm-length</b>\r\nCompatible with: <b>all the UMPC/MID/PPC/laptop and PC</b>', '90.99', '', '0', 'keyboard.jpg,keyboard1.jpg', '2015-07-12 13:13:11', '0000-00-00 00:00:00'),
-(4, 1, 'CPU cooler,2pcs 8025 fan, 2 heatpipe, tower side-blown, Intel LGA 775/1155/1156, AMD 754/940/AM2+/AM3/FM1/FM2,CPU radiator', '', '', '89', '40', '0', 'cooler1.jpg,cooler2.jpg', '2015-07-12 13:17:49', '0000-00-00 00:00:00'),
-(5, 1, 'Lightweight Ultra Thin Portable USB Flexible Foldable Silent Silicon Keyboard', 'This Silicone Flexible Keyboard is highly portable and can be rolled up for Storage or Transportation.The soft silicone allows for silent typing, making it ideal for travel and many work environments.', '', '50.99', '', '0', 'sony-keyboard.jpg', '2015-07-09 08:46:48', '0000-00-00 00:00:00'),
-(6, 3, 'test', 'test', '', '1', '', '0', '', '2015-07-11 13:51:27', '0000-00-00 00:00:00');
+(1, 11, 'Hot Sell Casual Flower Printed Dress for Young Ladies', '1) Various material, colors and sizes can be customized.\r\n\r\nColors:  according to you request.\r\n2) Your logo or brand can be put on, suitable for advertising and promotion.\r\n3) Factory sales directly!\r\n\r\nCompetitive price! Top quality!\r\n4) Welcome of your design for making samples.\r\n5) Pls feel free to contact us for further details.\r\n6) Packing: According to you request.', '', '138', '', '0', 'Hot-Sell-Casual-Flower-Printed-Dress-for-Young-Ladies1.jpg,Hot-Sell-Casual-Flower-Printed-Dress-for-Young-Ladies2.jpg,Hot-Sell-Casual-Flower-Printed-Dress-for-Young-Ladies3.jpg,Hot-Sell-Casual-Flower-Printed-Dress-for-Young-Ladies4.jpg', '2015-07-27 11:11:55', '2015-07-27 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `signup`
+--
+
+CREATE TABLE IF NOT EXISTS `signup` (
+`id` int(10) NOT NULL,
+  `password` varchar(300) NOT NULL,
+  `username` varchar(50) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `mobile` varchar(20) NOT NULL,
+  `created` datetime NOT NULL
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `signup`
+--
+
+INSERT INTO `signup` (`id`, `password`, `username`, `name`, `mobile`, `created`) VALUES
+(1, '3rdSlkpzDuhN+UZ9/nBEmTTmboSCJQVkDs45NQo/VFvHm1+JMggP7Q+6rex69yHKV7x8p1li/UxyOXpUgSPsXQ==', 'nelsieborja@gmail.com', 'nelsie', '', '2015-07-29 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -93,6 +148,12 @@ CREATE TABLE IF NOT EXISTS `user` (
 --
 
 --
+-- Indexes for table `cart`
+--
+ALTER TABLE `cart`
+ ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `category`
 --
 ALTER TABLE `category`
@@ -102,6 +163,12 @@ ALTER TABLE `category`
 -- Indexes for table `product`
 --
 ALTER TABLE `product`
+ ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `signup`
+--
+ALTER TABLE `signup`
  ADD PRIMARY KEY (`id`);
 
 --
@@ -115,15 +182,25 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `cart`
+--
+ALTER TABLE `cart`
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `category`
 --
 ALTER TABLE `category`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=6;
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=28;
 --
 -- AUTO_INCREMENT for table `product`
 --
 ALTER TABLE `product`
-MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=7;
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+--
+-- AUTO_INCREMENT for table `signup`
+--
+ALTER TABLE `signup`
+MODIFY `id` int(10) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `user`
 --

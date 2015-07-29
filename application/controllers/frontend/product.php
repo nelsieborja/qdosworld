@@ -7,16 +7,17 @@ class Product extends CI_Controller {
     {
 		 parent::__construct();
 		 
-		// Load model, library
-		$this->load->model($this->config->item('frontend_folder').'Product_model', 'product');
-		$this->load->model($this->config->item('frontend_folder').'Category_model', 'category');
+		// Load models
+		$this->load->model($this->config->item('frontend_folder').'product_model', 'product');
+		$this->load->model($this->config->item('frontend_folder').'category_model', 'category');
+		
+		// Load menu library
+		$this->load->library('menu');
 	}
 	
 	public function index()
 	{
-		$this->load->view($this->config->item('frontend_folder').'main', array('page' => 'view'));
-		
-		/* $data = array();
+		$data = array();
 		
 		$details = explode('-', $this->uri->segment($this->uri->total_segments()));
 		$id = array_pop($details);
@@ -32,7 +33,10 @@ class Product extends CI_Controller {
 			show_error('Product not found!');
 		}
 		
-		$row = $res[0]; */
+		$data = product_conversion($res, true);
+		$data = $data[0];
+		
+		$this->load->view($this->config->item('frontend_folder').'main', array('page' => 'view', 'product' => $data, 'menu' => $this->menu->get()));
 	}
 	
 }
